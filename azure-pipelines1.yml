@@ -1,0 +1,25 @@
+trigger:
+-   testing-ificanchangebranchinazuredevops
+
+pool:
+    vmImage:'windows-latest'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '4.4.1'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'solution_files/HomeCareWeb/HomeCareWeb.sln'
+    feedsToUse: 'select'
+
+- task: VSBuild@1
+  inputs:
+    solution: 'solution_files/HomeCareWeb/HomeCareWeb.sln'
+    vsVersion: '16.0'
+    restoreNugetPackages: true
+    msbuildArchitecture: 'x64'
+    createLogFile: true
+    logFileVerbosity: 'detailed'
